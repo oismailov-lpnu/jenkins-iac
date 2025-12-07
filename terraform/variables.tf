@@ -12,13 +12,13 @@ variable "region" {
 variable "zone" {
   description = "GCP zone"
   type        = string
-  default     = "europe-west4-a"
+  default     = "europe-west1-a"
 }
 
 variable "instance_count" {
   description = "How many cheap instances to create"
   type        = number
-  default     = 2
+  default     = 1
 }
 
 variable "ssh_username" {
