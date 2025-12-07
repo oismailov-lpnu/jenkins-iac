@@ -1,0 +1,39 @@
+---
+- name: Install and configure Apache on Ubuntu
+  hosts: web
+  become: yes
+  gather_facts: yes
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install Apache
+      apt:
+        name: apache2
+        state: present
+
+    - name: Ensure Apache is enabled and running
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+
+    - name: Set simple index.html
+      copy:
+        dest: /var/www/html/index.html
+        content: |
+          <html>
+            <head>
+              <title>Jenkins IAC Lab</title>
+            </head>
+            <body>
+              <h1>Hello from Apache on {{ inventory_hostname }}</h1>
+              <p>Deployed via Ansible 🔧</p>
+            </body>
+          </html>
+        owner: www-data
+        group: www-data
+        mode: '0644'
