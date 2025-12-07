@@ -1,12 +1,12 @@
 pipeline {
-  agent any
+	agent any
 
   environment {
-    TF_IN_AUTOMATION = "true"
+		TF_IN_AUTOMATION = "true"
   }
 
   parameters {
-    choice(
+		choice(
       name: 'TF_ACTION',
       choices: ['apply', 'destroy'],
       description: 'What do you want this pipeline to do?'
@@ -14,9 +14,9 @@ pipeline {
   }
 
   stages {
-    stage('Terraform init') {
-      steps {
-        sh '''
+		stage('Terraform init') {
+			steps {
+				sh '''
             cd terraform
             terraform init
         '''
@@ -24,8 +24,8 @@ pipeline {
     }
 
     stage('Terraform plan') {
-      steps {
-        sh '''
+			steps {
+				sh '''
             cd terraform
             terraform plan
         '''
@@ -33,13 +33,13 @@ pipeline {
     }
 
     stage('Terraform apply') {
-      when {
-        expression {
-          params.TF_ACTION == 'apply'
+			when {
+				expression {
+					params.TF_ACTION == 'apply'
         }
       }
       steps {
-        sh '''
+				sh '''
             cd terraform
             terraform apply -auto-approve
         '''
@@ -47,16 +47,16 @@ pipeline {
     }
 
     stage('Terraform destroy (manual)') {
-      when {
-        expression {
-          params.TF_ACTION == 'destroy'
+			when {
+				expression {
+					params.TF_ACTION == 'destroy'
         }
       }
 
       steps {
-        // Manual confirmation step
+				// Manual confirmation step
         script {
-            input message: 'Are you absolutely sure you want to run terraform destroy?', ok: 'Yes, destroy'
+					input message: 'Are you absolutely sure you want to run terraform destroy?', ok: 'Yes, destroy'
         }
 
         sh '''
