@@ -7,6 +7,7 @@ pipeline {
                 sh '''
                   cd terraform
                   terraform init
+                  terraform plan
                 '''
             }
         }
