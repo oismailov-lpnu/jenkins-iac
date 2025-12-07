@@ -65,5 +65,29 @@ pipeline {
         '''
       }
     }
+
+    stage('Generate Ansible inventory') {
+			steps {
+				sh '''
+				cd terraform
+
+				# Get TF output as JSON
+				terraform output -json vm_public_ips_by_name > /tmp/vm_ips.json
+
+				# change directory to root
+				cd ..
+
+				# Create Ansible inventory
+				echo "[web]" > ansible/inventory.ini
+				jq -r 'to_entries[] | "\\(.key) ansible_host=\\(.value) ansible_user=ubuntu"' /tmp/vm_ips.json >> ansible/inventory.ini
+
+				echo "Generated inventory:"
+				cat ansible/inventory.ini
+
+				# Example: run playbook (if you want)
+				# ansible-playbook -i ansible/inventory.ini ansible/playbook.yml
+				'''
+    	}
+	}
   }
 }
