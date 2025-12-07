@@ -1,6 +1,6 @@
 project_id      = "jenkins-iac-480517"
 region          = "europe-west1"
-zone            = "europe-west1-a"
+zone            = "europe-west1-b"
 instance_count  = 1
 
 ssh_username    = "ubuntu"

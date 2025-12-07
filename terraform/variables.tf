@@ -12,7 +12,7 @@ variable "region" {
 variable "zone" {
   description = "GCP zone"
   type        = string
-  default     = "europe-west1-a"
+  default     = "europe-west1-b"
 }
 
 variable "instance_count" {
