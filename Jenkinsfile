@@ -16,22 +16,18 @@ pipeline {
   stages {
     stage('Terraform init') {
       steps {
-        sh ''
-        '
+        sh '''
         cd terraform
         terraform init
-          ''
-        '
+        '''
       }
     }
     stage('Terraform plan') {
       steps {
-        sh ''
-        '
+        sh '''
         cd terraform
         terraform plan
-          ''
-        '
+        '''
       }
     }
 
@@ -42,11 +38,10 @@ pipeline {
         }
       }
       steps {
-        sh ''
-        '
+        sh '''
         cd terraform
-        terraform apply - auto - approve ''
-        '
+        terraform apply - auto - approve
+        '''
       }
     }
 
@@ -61,11 +56,10 @@ pipeline {
         input message: 'Are you absolutely sure you want to run terraform destroy?', ok: 'Yes, destroy'
       }
       steps {
-        sh ''
-        '
+        sh '''
         cd terraform
-        terraform destroy - auto - approve ''
-        '
+        terraform destroy - auto - approve
+        '''
       }
     }
   }
