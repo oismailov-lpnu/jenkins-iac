@@ -17,16 +17,17 @@ pipeline {
     stage('Terraform init') {
       steps {
         sh '''
-        cd terraform
-        terraform init
+            cd terraform
+            terraform init
         '''
       }
     }
+
     stage('Terraform plan') {
       steps {
         sh '''
-        cd terraform
-        terraform plan
+            cd terraform
+            terraform plan
         '''
       }
     }
@@ -39,8 +40,8 @@ pipeline {
       }
       steps {
         sh '''
-        cd terraform
-        terraform apply - auto - approve
+            cd terraform
+            terraform apply - auto - approve
         '''
       }
     }
@@ -51,14 +52,16 @@ pipeline {
           params.TF_ACTION == 'destroy'
         }
       }
-      // Manual confirmation step
-      script {
-        input message: 'Are you absolutely sure you want to run terraform destroy?', ok: 'Yes, destroy'
-      }
+
       steps {
+        // Manual confirmation step
+        script {
+            input message: 'Are you absolutely sure you want to run terraform destroy?', ok: 'Yes, destroy'
+        }
+
         sh '''
-        cd terraform
-        terraform destroy - auto - approve
+            cd terraform
+            terraform destroy -auto-approve
         '''
       }
     }
