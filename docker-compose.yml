@@ -1,0 +1,12 @@
+services:
+  jenkins:
+    build:
+      context: .
+      dockerfile: docker/jenkins/Dockerfile
+    container_name: jenkins-iac
+    ports:
+      - "8012:8080"
+      - "50012:50000"
+    volumes:
+      - ./docker/jenkins:/var/jenkins_home/data
+    restart: unless-stopped
