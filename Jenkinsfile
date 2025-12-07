@@ -1,62 +1,72 @@
 pipeline {
-    agent any
+  agent any
 
-    environment {
-        TF_IN_AUTOMATION = "true"
+  environment {
+    TF_IN_AUTOMATION = "true"
+  }
+
+  parameters {
+    choice(
+      name: 'TF_ACTION',
+      choices: ['apply', 'destroy'],
+      description: 'What do you want this pipeline to do?'
+    )
+  }
+
+  stages {
+    stage('Terraform init') {
+      steps {
+        sh ''
+        '
+        cd terraform
+        terraform init
+          ''
+        '
+      }
+    }
+    stage('Terraform plan') {
+      steps {
+        sh ''
+        '
+        cd terraform
+        terraform plan
+          ''
+        '
+      }
     }
 
-    parameters {
-        choice(
-            name: 'TF_ACTION',
-            choices: ['apply', 'destroy'],
-            description: 'What do you want this pipeline to do?'
-        )
+    stage('Terraform apply') {
+      when {
+        expression {
+          params.TF_ACTION == 'apply'
+        }
+      }
+      steps {
+        sh ''
+        '
+        cd terraform
+        terraform apply - auto - approve ''
+        '
+      }
     }
 
-    stages {
-        stage('Terraform init') {
-            steps {
-                sh '''
-                  cd terraform
-                  terraform init
-                '''
-            }
+    stage('Terraform destroy (manual)') {
+      when {
+        expression {
+          params.TF_ACTION == 'destroy'
         }
-        stage('Terraform plan') {
-            steps {
-                sh '''
-                  cd terraform
-                  terraform plan
-                '''
-            }
-        }
-
-         stage('Terraform apply') {
-            when {
-                expression { params.TF_ACTION == 'apply' }
-            }
-            steps {
-                sh '''
-                  cd terraform
-                  terraform apply -auto-approve
-                '''
-            }
-        }
-
-         stage('Terraform destroy (manual)') {
-            when {
-                expression { params.TF_ACTION == 'destroy' }
-            }
-                // Manual confirmation step
-                script {
-                    input message: 'Are you absolutely sure you want to run terraform destroy?', ok: 'Yes, destroy'
-                }
-            steps {
-                sh '''
-                  cd terraform
-                    terraform destroy -auto-approve
-                '''
-            }
-        }
+      }
+      // Manual confirmation step
+      script {
+        input message: 'Are you absolutely sure you want to run terraform destroy?', ok: 'Yes, destroy'
+      }
+      steps {
+        sh ''
+        '
+        cd terraform
+        terraform destroy - auto - approve ''
+        '
+      }
     }
+  }
 }
