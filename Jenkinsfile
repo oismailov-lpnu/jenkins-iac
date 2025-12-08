@@ -25,7 +25,7 @@ pipeline {
                       GCP_PATH=$(curl -s \
                         --header "X-Vault-Token: $VAULT_TOKEN" \
                         "$VAULT_ADDR/v1/secret/data/gcp" \
-                        | jq -r '.data.data.sa-key-path')
+                        | jq -r '.data.data["sa-key-path"]')
 
                       echo "Got path from Vault: $GCP_PATH"
 
