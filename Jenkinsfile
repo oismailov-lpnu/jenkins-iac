@@ -3,6 +3,7 @@ pipeline {
 
   environment {
 		TF_IN_AUTOMATION = "true"
+		VAULT_ADDR = 'http://vault:8212'
   }
 
   parameters {
