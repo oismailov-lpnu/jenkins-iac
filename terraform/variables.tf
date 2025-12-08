@@ -37,3 +37,9 @@ variable "ssh_source_cidr" {
   type        = string
   default     = "0.0.0.0/0"
 }
+
+variable "gcp_credentials_json" {
+  description = "GCP service account JSON"
+  type        = string
+  sensitive   = true
+}

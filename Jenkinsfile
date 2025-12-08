@@ -14,6 +14,32 @@ pipeline {
   }
 
   stages {
+
+		stage('Fetch path from Vault') {
+    steps {
+        script {
+            def secrets = [
+                [$class: 'VaultSecret', path: 'secret/data/gcp', secretValues: [
+                    [$class: 'VaultSecretValue', envVar: 'GCP_PATH', vaultKey: 'sa-key-path']
+                ]]
+            ]
+
+            wrap([$class: 'VaultBuildWrapper',
+                configuration: [
+                    $class: 'VaultConfiguration',
+                    vaultUrl: 'http://vault:8200',
+                    vaultCredentialId: 'vault-token',
+                    vaultSecrets: secrets
+                ]
+            ]) {
+                sh '''
+                  export TF_VAR_gcp_credentials_json="$GCP_PATH"
+                '''
+            }
+        }
+    }
+}
+
 		stage('Terraform init') {
 			steps {
 				sh '''

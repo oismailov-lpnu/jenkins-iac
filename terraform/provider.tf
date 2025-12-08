@@ -14,5 +14,5 @@ provider "google" {
   project = var.project_id
   region  = var.region
   zone    = var.zone
-  credentials  = data.vault_kv_secret_v2.gcp_sa.data["sa-key-path"]
+  credentials = file(var.gcp_credentials_json)
 }
