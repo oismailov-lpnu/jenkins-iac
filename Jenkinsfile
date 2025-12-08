@@ -66,33 +66,34 @@ pipeline {
       }
     }
 
-    stage('Generate Ansible inventory') {
-			when {
-				expression {
-					params.TF_ACTION == 'apply'
-        		}
-      		}
-			steps {
-				sh '''
-				cd terraform
+	stage('Generate Ansible inventory') {
+    when {
+        expression { params.TF_ACTION == 'apply' }
+    }
+    steps {
+        sh '''
+        cd terraform
 
-				# Get TF output as JSON
-				terraform output -json vm_public_ips_by_name > /tmp/vm_ips.json
+        # Get TF output as JSON
+        terraform output -json vm_public_ips_by_name > /tmp/vm_ips.json
 
-				# change directory to root
-				cd ..
+        # change directory back to workspace root
+        cd ..
 
-				# Create Ansible inventory
-				echo "[web]" > ansible/inventory.ini
-				jq -r 'to_entries[] | "\\(.key) ansible_host=\\(.value) ansible_user=ubuntu"' /tmp/vm_ips.json >> ansible/inventory.ini
+        # PRIVATE KEY PATH FOR ANSIBLE
+        PRIVATE_KEY="/var/jenkins_home/data/id_ed25519"
 
-				echo "Generated inventory:"
-				cat ansible/inventory.ini
+        # Create Ansible inventory
+        echo "[web]" > ansible/inventory.ini
 
-				# Example: run playbook (if you want)
-				# ansible-playbook -i ansible/inventory.ini ansible/site.yml
-				'''
-    	}
-	}
+        jq -r "to_entries[] | \\\"\(.key) ansible_host=\(.value) ansible_user=ubuntu ansible_ssh_private_key_file=${PRIVATE_KEY}\\\"" /tmp/vm_ips.json >> ansible/inventory.ini
+
+        echo "Generated inventory:"
+        cat ansible/inventory.ini
+        '''
+    }
+}
+
+
   }
 }
