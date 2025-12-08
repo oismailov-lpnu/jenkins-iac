@@ -13,7 +13,7 @@ provider "google" {
   project = var.project_id
   region  = var.region
   zone    = var.zone
-  credentials = file("/var/jenkins_home/data/jenkins-iac-sa-key.json")
+  credentials = file("/var/jenkins_home/data/lab12-sa-key.json")
 }
 
 data "google_compute_image" "ubuntu_2204" {
