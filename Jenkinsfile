@@ -19,6 +19,8 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'vault-token', variable: 'VAULT_TOKEN')]) {
                     sh '''
+                      echo "Create secrets directory.."
+                      mkdir -p secrets
                    	  echo "Fetching GCP credentials path from Vault..."
 
                       # KV v2: secret/data/gcp, поле credentials_path
