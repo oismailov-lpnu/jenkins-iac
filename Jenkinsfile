@@ -90,7 +90,7 @@ pipeline {
 				cat ansible/inventory.ini
 
 				# Example: run playbook (if you want)
-				# ansible-playbook -i ansible/inventory.ini ansible/playbook.yml
+				# ansible-playbook -i ansible/inventory.ini ansible/site.yml
 				'''
     	}
 	}
