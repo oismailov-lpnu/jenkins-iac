@@ -67,6 +67,11 @@ pipeline {
     }
 
     stage('Generate Ansible inventory') {
+			when {
+				expression {
+					params.TF_ACTION == 'apply'
+        		}
+      		}
 			steps {
 				sh '''
 				cd terraform

@@ -11,7 +11,8 @@ RUN apt-get update && \
     apt-transport-https \
     ca-certificates \
     python3-dev \
-    gcc && \
+    gcc \
+    jq && \
     rm -rf /var/lib/apt/lists/*
 
 RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
@@ -29,5 +30,7 @@ RUN curl -LO "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terr
 RUN terraform --version
 RUN ansible --version
 RUN gcloud --version
+
+RUN echo "alias ll='ls -la'" >> /etc/bash.bashrc
 
 USER jenkins
