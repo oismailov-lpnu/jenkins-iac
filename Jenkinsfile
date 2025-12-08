@@ -88,6 +88,9 @@ pipeline {
 
 				echo "Generated inventory:"
 				cat ansible/inventory.ini
+
+				echo "Running Ansible playbook..."
+                ansible-playbook -i ansible/inventory.ini ansible/site.yml
 			'''
 		}
 	}
