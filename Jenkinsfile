@@ -81,6 +81,12 @@ pipeline {
 
 				PRIVATE_KEY="/var/jenkins_home/data/id_ed25519"
 
+				# Build known_hosts from all public IPs
+				jq -r '.[]' /tmp/vm_ips.json | while read ip; do
+				  echo "Scanning host key for $ip"
+				  ssh-keyscan -H "$ip" >> ~/.ssh/known_hosts 2>/dev/null || true
+				done
+
 				echo "[web]" > ansible/inventory.ini
 
 				# Correct jq command without Groovy escaping problems
