@@ -84,7 +84,7 @@ pipeline {
 				echo "[web]" > ansible/inventory.ini
 
 				# Correct jq command without Groovy escaping problems
-				jq -r "to_entries[] | .key + \" ansible_host=\" + .value + \" ansible_user=ubuntu ansible_ssh_private_key_file=${PRIVATE_KEY}\"" /tmp/vm_ips.json >> ansible/inventory.ini
+				jq -r "to_entries[] | .key + \\" ansible_host=\\" + .value + \\" ansible_user=ubuntu ansible_ssh_private_key_file=${PRIVATE_KEY}\\"" /tmp/vm_ips.json >> ansible/inventory.ini
 
 				echo "Generated inventory:"
 				cat ansible/inventory.ini
