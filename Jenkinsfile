@@ -29,7 +29,7 @@ pipeline {
                       echo "Got path from Vault: $GCP_PATH"
 
                       # Записуємо env для наступних stage-ів
-                      export TF_VAR_gcp_credentials_file="$GCP_PATH"
+                      export TF_VAR_gcp_credentials_json="$GCP_PATH"
                     '''
                 }
             }
