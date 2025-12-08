@@ -39,6 +39,7 @@ pipeline {
 		stage('Terraform init') {
 			steps {
 				sh '''
+			echo $TF_VAR_gcp_credentials_json
             cd terraform
             terraform init
         '''
