@@ -30,7 +30,7 @@ pipeline {
                       echo "Got path from Vault: $GCP_PATH"
 
                       # Записуємо env для наступних stage-ів
-                      export TF_VAR_gcp_credentials_json="$GCP_PATH"
+                      echo "TF_VAR_gcp_credentials_json=$GCP_PATH" > secrets/tf_env.sh
                     '''
                 }
             }
@@ -39,6 +39,7 @@ pipeline {
 		stage('Terraform init') {
 			steps {
 				sh '''
+			source secrets/tf_env.sh
 			echo $TF_VAR_gcp_credentials_json
             cd terraform
             terraform init
