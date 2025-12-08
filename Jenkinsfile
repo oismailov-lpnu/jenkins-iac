@@ -41,7 +41,8 @@ pipeline {
 		stage('Terraform init') {
 			steps {
 				sh '''
-			source secrets/tf_env.sh
+			. secrets/tf_env.sh
+
 			echo $TF_VAR_gcp_credentials_json
             cd terraform
             terraform init
