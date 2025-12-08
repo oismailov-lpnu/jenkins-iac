@@ -27,7 +27,7 @@ pipeline {
             wrap([$class: 'VaultBuildWrapper',
                 configuration: [
                     $class: 'VaultConfiguration',
-                    vaultUrl: 'http://vault:8200',
+                    vaultUrl: 'http://vault:8212',
                     vaultCredentialId: 'vault-token',
                     vaultSecrets: secrets
                 ]
