@@ -31,7 +31,7 @@
             </head>
             <body>
               <h1>Hello from Apache on {{ inventory_hostname }}</h1>
-              <p>Deployed via Ansible 🔧</p>
+              <p>Deployed via Ansible</p>
             </body>
           </html>
         owner: www-data
