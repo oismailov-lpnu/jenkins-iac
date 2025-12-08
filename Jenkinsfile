@@ -66,34 +66,30 @@ pipeline {
       }
     }
 
-	stage('Generate Ansible inventory') {
-    when {
-        expression { params.TF_ACTION == 'apply' }
+    stage('Generate Ansible inventory') {
+			when {
+				expression { params.TF_ACTION == 'apply' }
     }
-    steps {
-        sh '''
-        cd terraform
+		steps {
+					sh '''
+				cd terraform
 
-        # Get TF output as JSON
-        terraform output -json vm_public_ips_by_name > /tmp/vm_ips.json
+				# Get TF output as JSON
+				terraform output -json vm_public_ips_by_name > /tmp/vm_ips.json
 
-        # change directory back to workspace root
-        cd ..
+				cd ..
 
-        # PRIVATE KEY PATH FOR ANSIBLE
-        PRIVATE_KEY="/var/jenkins_home/data/id_ed25519"
+				PRIVATE_KEY="/var/jenkins_home/data/id_ed25519"
 
-        # Create Ansible inventory
-        echo "[web]" > ansible/inventory.ini
+				echo "[web]" > ansible/inventory.ini
 
-        jq -r "to_entries[] | \\\"\(.key) ansible_host=\(.value) ansible_user=ubuntu ansible_ssh_private_key_file=${PRIVATE_KEY}\\\"" /tmp/vm_ips.json >> ansible/inventory.ini
+				# Correct jq command without Groovy escaping problems
+				jq -r "to_entries[] | .key + \" ansible_host=\" + .value + \" ansible_user=ubuntu ansible_ssh_private_key_file=${PRIVATE_KEY}\"" /tmp/vm_ips.json >> ansible/inventory.ini
 
-        echo "Generated inventory:"
-        cat ansible/inventory.ini
-        '''
-    }
-}
-
-
+				echo "Generated inventory:"
+				cat ansible/inventory.ini
+			'''
+		}
+	}
   }
 }
