@@ -1,7 +1,7 @@
 terraform {
   backend "gcs" {
-    bucket  = "lab12-tfstate"
-    prefix  = "terraform/state"
-    credentials = "/var/jenkins_home/data/lab12-sa-key.json"
+    bucket      = "lab12-tfstate"
+    prefix      = "terraform/state"
+    credentials = data.vault_kv_secret_v2.gcp_sa.data["sa-key-path"]
   }
 }

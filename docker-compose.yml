@@ -10,3 +10,13 @@ services:
     volumes:
       - ./docker/jenkins:/var/jenkins_home/data
     restart: unless-stopped
+
+  vault:
+    image: hashicorp/vault:latest
+    container_name: vault
+    environment:
+      - VAULT_DEV_ROOT_TOKEN_ID=root
+    ports:
+      - "8212:8200"
+    cap_add:
+      - IPC_LOCK

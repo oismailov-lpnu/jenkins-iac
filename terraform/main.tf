@@ -1,21 +1,3 @@
-terraform {
-  required_version = ">= 1.5.0"
-
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = "~> 5.0"
-    }
-  }
-}
-
-provider "google" {
-  project = var.project_id
-  region  = var.region
-  zone    = var.zone
-  credentials = file("/var/jenkins_home/data/lab12-sa-key.json")
-}
-
 data "google_compute_image" "ubuntu_2204" {
   family  = "ubuntu-2204-lts"
   project = "ubuntu-os-cloud"
