@@ -12,6 +12,7 @@ RUN apt-get update && \
     ca-certificates \
     python3-dev \
     gcc \
+    netcat-openbsd \
     jq && \
     rm -rf /var/lib/apt/lists/*
 
