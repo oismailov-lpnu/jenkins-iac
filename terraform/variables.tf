@@ -25,11 +25,13 @@ variable "ssh_username" {
   description = "Linux username that will own the SSH key"
   type        = string
   default     = "ubuntu"
+  sensitive   = true
 }
 
 variable "ssh_public_key" {
   description = "SSH public key (single line: ssh-ed25519/ssh-rsa ...)"
   type        = string
+  sensitive   = true
 }
 
 variable "ssh_source_cidr" {
