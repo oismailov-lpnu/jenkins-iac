@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket      = "lab12-tfstate"
+    bucket      = "jenkins-iac-vault-tfstate"
     prefix      = "terraform/state"
   }
 }
