@@ -44,8 +44,6 @@ pipeline {
 			steps {
 				sh '''
 			. secrets/tf_env.sh
-
-			echo $TF_VAR_gcp_credentials_json
             cd terraform
             terraform init
         '''
@@ -55,6 +53,7 @@ pipeline {
     stage('Terraform plan') {
 			steps {
 				sh '''
+			. secrets/tf_env.sh
             cd terraform
             terraform plan
         '''
@@ -69,6 +68,7 @@ pipeline {
       }
       steps {
 				sh '''
+			. secrets/tf_env.sh
             cd terraform
             terraform apply -auto-approve
         '''
@@ -89,6 +89,7 @@ pipeline {
         }
 
         sh '''
+        	. secrets/tf_env.sh
             cd terraform
             terraform destroy -auto-approve
         '''
@@ -101,6 +102,7 @@ pipeline {
     }
 		steps {
 					sh '''
+				. secrets/tf_env.sh
 				cd terraform
 
 				# Get TF output as JSON
