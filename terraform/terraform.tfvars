@@ -1,4 +1,4 @@
-project_id      = "lab12-480620"
+project_id      = "jenkins-iac-vault"
 region          = "europe-west1"
 zone            = "europe-west1-b"
 instance_count  = 1
