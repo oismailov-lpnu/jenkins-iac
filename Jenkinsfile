@@ -139,5 +139,14 @@ pipeline {
 			'''
 		}
 	}
+
+	stage('Cleanup') {
+
+      steps {
+        sh '''
+        	rm  secrets/tf_env.sh
+        '''
+      }
+    }
   }
 }
