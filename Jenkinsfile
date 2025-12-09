@@ -24,17 +24,18 @@ pipeline {
                    	  echo "Fetching GCP credentials path from Vault..."
 
                       # KV v2: secret/data/gcp, поле credentials_path
-                      GCP_PATH=$(curl -s \
-                        --header "X-Vault-Token: $VAULT_TOKEN" \
-                        "$VAULT_ADDR/v1/secret/data/gcp" \
-                        | jq -r '.data.data["sa-key-path"]')
+                      VAULT_JSON=$(curl -s \
+						  --header "X-Vault-Token: $VAULT_TOKEN" \
+						  "$VAULT_ADDR/v1/secret/data/gcp")
 
-                      echo "Got path from Vault: $GCP_PATH"
+					  GCP_PATH=$(echo "$VAULT_JSON" | jq -r '.data.data["sa-key-path"]')
+					  SSH_PUB_KEY=$(echo "$VAULT_JSON" | jq -r '.data.data["ssh_public_key"]')
+					  SSH_USER=$(echo "$VAULT_JSON" | jq -r '.data.data["ssh_username"]')
 
                       # Записуємо env для наступних stage-ів
-                      echo "export TF_VAR_gcp_credentials_file=$GCP_PATH"   >  secrets/tf_env.sh
 					  echo "export GOOGLE_APPLICATION_CREDENTIALS=$GCP_PATH" >> secrets/tf_env.sh
-
+					  echo "export TF_VAR_ssh_public_key=$SSH_PUB_KEY" >> secrets/tf_env.sh
+					  echo "export TF_VAR_ssh_username=$SSH_USER" >> secrets/tf_env.sh
                     '''
                 }
             }
