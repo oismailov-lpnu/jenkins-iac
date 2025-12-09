@@ -32,7 +32,9 @@ pipeline {
                       echo "Got path from Vault: $GCP_PATH"
 
                       # Записуємо env для наступних stage-ів
-                      echo "TF_VAR_gcp_credentials_json=$GCP_PATH" > secrets/tf_env.sh
+                      echo "export TF_VAR_gcp_credentials_file=$GCP_PATH"   >  secrets/tf_env.sh
+					  echo "export GOOGLE_APPLICATION_CREDENTIALS=$GCP_PATH" >> secrets/tf_env.sh
+
                     '''
                 }
             }
