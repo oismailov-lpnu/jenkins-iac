@@ -33,23 +33,13 @@ pipeline {
 					  SSH_USER=$(echo "$VAULT_JSON" | jq -r '.data.data["ssh_username"]')
 
                       # Записуємо env для наступних stage-ів
-					  echo "export GOOGLE_APPLICATION_CREDENTIALS=$GCP_PATH" >> secrets/tf_env.sh
+					  echo "export GOOGLE_APPLICATION_CREDENTIALS=$GCP_PATH" > secrets/tf_env.sh
 					  echo "export TF_VAR_ssh_public_key=\"$SSH_PUB_KEY\"" >> secrets/tf_env.sh
 					  echo "export TF_VAR_ssh_username=$SSH_USER" >> secrets/tf_env.sh
                     '''
                 }
             }
         }
-
-		stage('Terraform init') {
-			steps {
-				sh '''
-			. secrets/tf_env.sh
-            cd terraform
-            terraform init
-        '''
-      }
-    }
 
     stage('Terraform plan') {
 			steps {
