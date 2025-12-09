@@ -118,7 +118,7 @@ pipeline {
 
 				  # Wait until port 22 is open
 				  while ! nc -z "$ip" 22 2>/dev/null; do
-					sleep 5
+					sleep 2
 				  done
 
 				  echo "SSH is up on $ip, scanning host key..."
