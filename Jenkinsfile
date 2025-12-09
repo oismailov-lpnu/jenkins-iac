@@ -117,9 +117,7 @@ pipeline {
 				  echo "Waiting for SSH to become available on $ip..."
 
 				  # Wait until port 22 is open
-				  while ! nc -z "$ip" 22 2>/dev/null; do
-					sleep 1
-				  done
+				  sleep 5
 
 				  echo "SSH is up on $ip, scanning host key..."
 				  ssh-keyscan -H "$ip" >> ~/.ssh/known_hosts 2>/dev/null || true
